@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Convert HTML to JSOn</title>
+</head>
+<body>
+    <div class="convertable-section">
+        <div class="form-group" type="text" >
+            <input type="text" placeholder="Enter text">
+        </div>
+        <div class="form-group" type="textarea">
+           <textarea name="" id="" cols="30" rows="10" placeholder="Enter text"></textarea>
+        </div>
+        <div class="form-group" type="checkbox-group">
+            <div class="checkbox-group">
+                <div class="formbuilder-checkbox">
+                    <input name="checkbox-group-1581177218245-preview[]" access="false" multiple="false" class="" id="checkbox-group-1581177218245-preview-0" value="option-1" type="checkbox" checked="checked">
+                    <label for="checkbox-group-1581177218245-preview-0">Option 1</label>
+                </div>
+            </div>
+         </div>
+    </div>
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var formList = [];
+           
+            $('.convertable-section .form-group').each(function(i, e) {
+                var nameProperties = {};    
+                nameProperties["type"]= $(this).attr("type");        
+               
+                $(this).children().each( function() {
+                    $.each(this.attributes, function() {                       
+                        if(this.specified) {                         
+                            if(this.value != ""){
+                                if(this.name != "type"){
+                                    nameProperties[this.name]= this.value;    
+                                }
+                            }                                                  
+                        }
+                    });
+                    formList.push(nameProperties);
+                });
+
+            });
+        
+            var JsonString = JSON.stringify(formList);
+            console.log(JsonString);
+        });
+
+        
+    </script>
+</body>
+</html>
