@@ -28,11 +28,14 @@
     <script>
         $(document).ready(function () {
             var formList = [];
-           
+            var childList = [];
             $('.convertable-section .form-group').each(function(i, e) {
                 var nameProperties = {};    
-                nameProperties["type"]= $(this).attr("type");        
-               
+                var childPrperties = {};
+                //nameProperties["type"]= $(this).attr("type");   
+                childPrperties["test"]="hello";    
+                
+                nameProperties["type"] = childList;
                 $(this).children().each( function() {
                     $.each(this.attributes, function() {                       
                         if(this.specified) {                         
@@ -45,13 +48,13 @@
                     });
                     formList.push(nameProperties);
                 });
-
+                childList.push(childPrperties); 
             });
         
             var JsonString = JSON.stringify(formList);
             console.log(JsonString);
-        });
 
+        });
         
     </script>
 </body>
