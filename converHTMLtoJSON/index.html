@@ -5,57 +5,211 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Convert HTML to JSOn</title>
+    <style>
+        .form-group{
+            margin: 16px 0;
+        }
+        .form-group > *{
+            display: block;
+        }
+       .detail-section{
+           display: flex;
+       }
+    </style>
 </head>
 <body>
     <div class="convertable-section">
-        <div class="form-group" type="text" >
+      <h4>Master</h4>
+      <div class="master-section">
+        <div class="form-group" type="input" >
+            <i>input</i>
             <input type="text" placeholder="Enter text">
+            <textarea name="" id="" cols="30" rows="10" placeholder="Enter text"></textarea>
         </div>
         <div class="form-group" type="textarea">
-           <textarea name="" id="" cols="30" rows="10" placeholder="Enter text"></textarea>
+            <i>textarea</i>
+            <input type="text" placeholder="Enter text">
+            <textarea name="" id="" cols="30" rows="10" placeholder="Enter text"></textarea>
         </div>
-        <div class="form-group" type="checkbox-group">
-            <div class="checkbox-group">
-                <div class="formbuilder-checkbox">
-                    <input name="checkbox-group-1581177218245-preview[]" access="false" multiple="false" class="" id="checkbox-group-1581177218245-preview-0" value="option-1" type="checkbox" checked="checked">
-                    <label for="checkbox-group-1581177218245-preview-0">Option 1</label>
-                </div>
-            </div>
-         </div>
+      </div>
+      <h4>Detail</h4>
+      <div class="detail-section">
+        <div class="form-group" type="radio" >
+            <i>radio</i>
+            <input type="text" placeholder="Enter text">
+            <textarea name="" id="" cols="30" rows="10" placeholder="Enter text"></textarea>
+        </div>
+        <div class="form-group" type="group">
+            <i>group</i>
+            <input type="text" placeholder="Enter text">
+            <textarea name="" id="" cols="30" rows="10" placeholder="Enter text"></textarea>
+        </div>
+        <div class="form-group" type="input" >
+            <i>input</i>
+            <input type="text" placeholder="Enter text">
+            <textarea name="" id="" cols="30" rows="10" placeholder="Enter text"></textarea>
+        </div>
+        <div class="form-group" type="input" >
+            <i>input</i>
+            <input type="text" placeholder="Enter text">
+            <textarea name="" id="" cols="30" rows="10" placeholder="Enter text"></textarea>
+        </div>
+        <div class="form-group" type="textarea">
+            <i>textarea</i>
+            <input type="text" placeholder="Enter text">
+            <textarea name="" id="" cols="30" rows="10" placeholder="Enter text"></textarea>
+        </div>
+      </div>
     </div>
+    <h4>Preview</h4>
+    <div class="preview-section">
+        <div class="master-section">
+
+        </div>
+        <div class="detail-section">
+            
+        </div>
+    </div>
+    <button onclick="previewList()">Preview</button>
+    <button onclick="getList()">Save</button>
+    
    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function () {
-            var formList = [];
-            var childList = [];
-            $('.convertable-section .form-group').each(function(i, e) {
-                var nameProperties = {};    
-                var childPrperties = {};
-                //nameProperties["type"]= $(this).attr("type");   
-                childPrperties["test"]="hello";    
+        // $(document).ready(function () {
+        //     var formList = [];
+        //     var childList = [];
+        //     $('.convertable-section .form-group').each(function(i, e) {
+        //         var nameProperties = {};    
+        //         var childPrperties = {};
+        //         //nameProperties["type"]= $(this).attr("type");   
+        //         childPrperties["test"]="hello";    
                 
-                nameProperties["type"] = childList;
-                $(this).children().each( function() {
-                    $.each(this.attributes, function() {                       
-                        if(this.specified) {                         
-                            if(this.value != ""){
-                                if(this.name != "type"){
-                                    nameProperties[this.name]= this.value;    
-                                }
-                            }                                                  
-                        }
-                    });
-                    formList.push(nameProperties);
-                });
-                childList.push(childPrperties); 
-            });
+        //         nameProperties["type"] = childList;
+        //         $(this).children().each( function() {
+        //             $.each(this.attributes, function() {                       
+        //                 if(this.specified) {                         
+        //                     if(this.value != ""){
+        //                         if(this.name != "type"){
+        //                             nameProperties[this.name]= this.value;    
+        //                         }
+        //                     }                                                  
+        //                 }
+        //             });
+        //             formList.push(nameProperties);
+        //         });
+        //         childList.push(childPrperties); 
+        //     });
         
-            var JsonString = JSON.stringify(formList);
-            console.log(JsonString);
+        //     var JsonString = JSON.stringify(formList);
+        //     console.log(JsonString);
+
+        // });
+
+        $(document).ready(function () {
+            
 
         });
-        
+        function getList(){
+            var formList = [];
+            var formProperties = {};  
+            var masterList = [];
+            var detailList = [];
+           
+            $('.convertable-section .master-section .form-group').each(function(i, e) {
+                var properties = {};  
+                properties['type'] = $(this).attr("type"); 
+                properties['title'] =  $(this).find('input').val();
+                properties['desc'] =  $(this).find('textarea').val();
+                masterList.push(properties);               
+            });
+            $('.convertable-section .detail-section .form-group').each(function(i, e) {
+                var properties = {};  
+                properties['type'] = $(this).attr("type"); 
+                properties['title'] =  $(this).find('input').val();
+                properties['desc'] =  $(this).find('textarea').val();
+                detailList.push(properties);               
+            });
+
+            formProperties['master'] = masterList;
+            formProperties['detail'] = detailList;
+            formList.push(formProperties); 
+
+            var JsonString = JSON.stringify(formList, undefined, 2);
+            console.log(JsonString);
+           return JsonString;
+        }
+
+        function previewList(){
+            var jsonForm = getList();
+            
+            var obj = JSON.parse(jsonForm);
+            
+            for(var i = 0; i < obj[0].master.length; i++){
+                console.log(obj[0].master[i].type);
+                var html ;
+                if(obj[0].master[i].type == 'input'){
+                    html = `<div class="form-group" type="input" >
+                                <label>` + obj[0].master[i].title + `</label>
+                                <i>` + obj[0].master[i].desc + `</i>
+                                <input type="text" placeholder="Enter text">
+                            </div>`;
+                }else if(obj[0].master[i].type == 'textarea'){
+                    html = `<div class="form-group" type="input" >
+                                <label>` + obj[0].master[i].title + `</label>
+                                <i>` + obj[0].master[i].desc + `</i>
+                                <textarea name="" id="" cols="30" rows="10" placeholder="Enter text"></textarea>
+                            </div>`;
+                }
+                
+               // var div = "<div class='whoWrap'>" + listP.PEOPLE[j].name + " " + j + "</div>"
+                $(".preview-section .master-section").append(html);
+            }
+
+            for(var i = 0; i < obj[0].detail.length; i++){
+                console.log(obj[0].detail[i].type);
+                var html ;
+                var condition = obj[0].detail[i].type;
+                switch (condition) {
+                    case (condition = "input"):                   
+                        html = `<div class="form-group" type="input" >
+                                    <label>` + obj[0].detail[i].title + `</label>
+                                    <i>` + obj[0].detail[i].desc + `</i>
+                                    <input type="text" placeholder="Enter text">
+                                </div>`;
+                        break;
+                    case (condition = "textarea"):   
+                        html = `<div class="form-group" type="input" >
+                                    <label>` + obj[0].detail[i].title + `</label>
+                                    <i>` + obj[0].detail[i].desc + `</i>
+                                    <textarea name="" id="" cols="30" rows="10" placeholder="Enter text"></textarea>
+                                </div>`;
+                        break;
+                    case (condition = "radio"):
+                        html = `<div class="form-group" type="input" >
+                                    <label>` + obj[0].detail[i].title + `</label>
+                                    <i>` + obj[0].detail[i].desc + `</i>
+                                    <input type="text" placeholder="Radio">
+                                </div>`;
+                        break;
+                    case (condition = "group"):
+                        html = `<div class="form-group" type="input" >
+                                    <label>` + obj[0].detail[i].title + `</label>
+                                    <i>` + obj[0].detail[i].desc + `</i>
+                                    <input type="text" placeholder="group">
+                                </div>`;
+                        break;
+                   
+                }
+
+               
+                
+               // var div = "<div class='whoWrap'>" + listP.PEOPLE[j].name + " " + j + "</div>"
+                $(".preview-section .detail-section").append(html);
+            }
+            
+            
+        }
     </script>
 </body>
 </html>
